@@ -23,6 +23,8 @@ Example Playbook
       roles:
          - { role: elao.php-5_2 }
 
+Note: this role NEEDS a mysql client compatible role (such as mysql-server or mariadb-server). It's up to you to require it BEFORE.
+
 
 License
 -------

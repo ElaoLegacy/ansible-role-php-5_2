@@ -2,26 +2,13 @@
 
 - name: package copy
   copy: >
-    src=php5_5.2.17-1~elao.1_amd64.deb
-    dest=/opt/php5_5.2.17-1~elao.1_amd64.deb
+    src=php_5.2.17-1+elao1_amd64.deb
+    dest=/opt/php_5.2.17-1+elao1_amd64.deb
   sudo: yes
 
 - name: package install
   apt: >
-    deb=/opt/php5_5.2.17-1~elao.1_amd64.deb
-  sudo: yes
-
-- name: service
-  file: >
-    src=/usr/local/sbin/php-fpm
-    dest=/etc/init.d/php-fpm
-    state=link
-  sudo: yes
-
-- name: logs dir
-  file: >
-    path=/usr/local/logs
-    state=directory
+    deb=/opt/php_5.2.17-1+elao1_amd64.deb
   sudo: yes
 
 - name: config - dist
@@ -42,10 +29,9 @@
   when: elao_env == 'prod'
   sudo: yes
 
-- name: config fpm
-  template: >
-    src=php-fpm.conf.j2
-    dest=/usr/local/etc/php-fpm.conf
-  notify:
-    - php restart
+- name: service
+  service: >
+    name=php-fpm
+    state=started
+    enabled=true
   sudo: yes
