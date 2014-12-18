@@ -1,4 +1,7 @@
 ---
 
+# Patches
+- include: patches/0010_package.yml
+
 - include: php.yml
 - include: nginx.yml
