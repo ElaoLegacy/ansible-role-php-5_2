@@ -1,0 +1,8 @@
+---
+
+- name: service
+  service: >
+    name=php-fpm
+    state=started
+    enabled=true
+  sudo: yes

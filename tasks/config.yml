@@ -1,0 +1,44 @@
+---
+
+- name: config
+  template: >
+    src=php.ini.j2
+    dest=/etc/php/php.ini
+  notify:
+    - php restart
+  when: elao_env != 'prod'
+  sudo: yes
+
+- name: config env
+  template: >
+    src=config_{{ item }}.ini.j2
+    dest=/etc/php/conf.d/70-config_{{ item }}.ini
+  notify:
+    - php restart
+  when: elao_env == item
+  with_items:
+    - dev
+    - prod
+  sudo: yes
+
+- name: config env not
+  file: >
+    path=/etc/php/conf.d/70-config_{{ item }}.ini
+    state=absent
+  notify:
+    - php restart
+  when: not elao_env == item
+  with_items:
+    - dev
+    - prod
+  sudo: yes
+
+- name: config global
+  ini_file: >
+    dest=/etc/php/conf.d/80-config.ini
+    section=PHP
+    option={{ item.key }}
+    value={{ item.value }}
+  when: elao_php_config|length > 0
+  with_dict: elao_php_config
+  sudo: yes
