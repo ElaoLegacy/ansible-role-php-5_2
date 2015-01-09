@@ -9,6 +9,12 @@
   when: elao_env != 'prod'
   sudo: yes
 
+- name: config env directory
+  file: >
+    path=/etc/php/conf.d
+    state=directory
+  sudo: yes
+
 - name: config env
   template: >
     src=config_{{ item }}.ini.j2
